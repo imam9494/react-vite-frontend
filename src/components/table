@@ -1,0 +1,86 @@
+
+        {/* TABLE */}
+        <table className="table table-bordered table-success table-hover text-center">
+
+          <thead className="table-dark">
+            <tr>
+              <th>No</th>
+
+              <th
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  setSortField("name");
+                  setSortOrder(
+                    sortField === "name" && sortOrder === "asc" ? "desc" : "asc"
+                  );
+                }}
+              >
+                Name {sortField === "name" && (sortOrder === "asc" ? "▲" : "▼")}
+              </th>
+
+              <th
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  setSortField("email");
+                  setSortOrder(
+                    sortField === "email" && sortOrder === "asc" ? "desc" : "asc"
+                  );
+                }}
+              >
+                Email {sortField === "email" && (sortOrder === "asc" ? "▲" : "▼")}
+              </th>
+
+              <th
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  setSortField("role");
+                  setSortOrder(
+                    sortField === "role" && sortOrder === "asc" ? "desc" : "asc"
+                  );
+                }}
+              >
+                Role {sortField === "role" && (sortOrder === "asc" ? "▲" : "▼")}
+              </th>
+
+              <th>Aksi</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {currentUsers.map((u, i) => (
+              <tr key={u.id}>
+                <td>{indexOfFirst + i + 1}</td>
+                <td>{u.name}</td>
+                <td>{u.email}</td>
+                <td>
+                  {u.role === "admin" && (
+                    <span className="badge bg-danger">Admin</span>
+                  )}
+
+                  {u.role === "user" && (
+                    <span className="badge bg-success">User</span>
+                  )}
+
+                  {u.role === "staff" && (
+                    <span className="badge bg-warning text-dark">Staff</span>
+                  )}
+                </td>
+                <td>
+                  <button
+                    className="btn btn-warning btn-sm me-2"
+                    onClick={() => handleEdit(u)}
+                  >
+                    Edit
+                  </button>
+
+                  <button
+                    className="btn btn-danger btn-sm"
+                    onClick={() => handleDelete(u.id)}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>

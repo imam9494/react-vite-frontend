@@ -1,0 +1,465 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
+
+export default function Dashboard() {
+
+  // =====================
+  // STATE
+  // =====================
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const [isModalOpen, setIsModalOpen] =
+    useState(false);
+
+  const [editingUser, setEditingUser] =
+    useState(null);
+
+  const [formData, setFormData] =
+    useState({
+      name: "",
+      email: "",
+      password: "",
+    });
+
+  const token =
+    localStorage.getItem("token");
+
+  // =====================
+  // FETCH USERS
+  // =====================
+  const fetchUsers = async () => {
+
+    setLoading(true);
+
+    try {
+
+      const res = await axios.get(
+        "http://localhost:3000/api/v1/users",
+        {
+          headers: {
+            Authorization:
+              `Bearer ${token}`,
+          },
+        }
+      );
+
+      setUsers(res.data.users);
+
+    } catch (err) {
+
+      console.log(
+        "fetchUsers error:",
+        err
+      );
+
+    } finally {
+
+      setLoading(false);
+
+    }
+  };
+
+  // =====================
+  // OPEN ADD MODAL
+  // =====================
+  const openModal = () => {
+
+    setEditingUser(null);
+
+    setFormData({
+      name: "",
+      email: "",
+      password: "",
+    });
+
+    setIsModalOpen(true);
+  };
+
+  // =====================
+  // OPEN EDIT MODAL
+  // =====================
+  const openEditModal = (user) => {
+
+    setEditingUser(user);
+
+    setFormData({
+      name: user.name,
+      email: user.email,
+      password: "",
+    });
+
+    setIsModalOpen(true);
+  };
+
+  // =====================
+  // CLOSE MODAL
+  // =====================
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  // =====================
+  // SAVE USER
+  // =====================
+  const handleSubmit = async (e) => {
+
+    e.preventDefault();
+
+    try {
+
+      if (editingUser) {
+
+        await axios.put(
+          `http://localhost:3000/api/v1/users/${editingUser.id}`,
+          {
+            name: formData.name,
+            email: formData.email,
+          },
+          {
+            headers: {
+              Authorization:
+                `Bearer ${token}`,
+            },
+          }
+        );
+
+      } else {
+
+        await axios.post(
+          "http://localhost:3000/api/v1/users",
+          formData,
+          {
+            headers: {
+              Authorization:
+                `Bearer ${token}`,
+            },
+          }
+        );
+
+      }
+
+      closeModal();
+
+      setEditingUser(null);
+
+      fetchUsers();
+
+    } catch (err) {
+
+      console.log(err);
+
+    }
+  };
+const deleteUser = async (id) => {
+
+  const confirmDelete =
+    window.confirm(
+      "Yakin hapus user?"
+    );
+
+  if (!confirmDelete) return;
+
+  try {
+
+    await axios.delete(
+      `http://localhost:3000/api/v1/users/${id}`,
+      {
+        headers: {
+          Authorization:
+            `Bearer ${token}`,
+        },
+      }
+    );
+
+    alert("User deleted");
+
+    fetchUsers();
+
+  } catch (err) {
+
+    console.log(err);
+
+    alert("Gagal hapus user");
+
+  }
+};
+
+const deleteUser = async (id) => {
+
+  const confirmDelete =
+    window.confirm(
+      "Yakin hapus user?"
+    );
+
+  if (!confirmDelete) return;
+
+  try {
+
+    await axios.delete(
+      `http://localhost:3000/api/v1/users/${id}`,
+      {
+        headers: {
+          Authorization:
+            `Bearer ${token}`,
+        },
+      }
+    );
+
+    alert("User deleted");
+
+    fetchUsers();
+
+  } catch (err) {
+
+    console.log(err);
+
+    alert("Gagal hapus user");
+
+  }
+};
+
+const deleteUser = async (id) => {
+
+  const confirmDelete =
+    window.confirm(
+      "Yakin hapus user?"
+    );
+
+  if (!confirmDelete) return;
+
+  try {
+
+    await axios.delete(
+      `http://localhost:3000/api/v1/users/${id}`,
+      {
+        headers: {
+          Authorization:
+            `Bearer ${token}`,
+        },
+      }
+    );
+
+    alert("User deleted");
+
+    fetchUsers();
+
+  } catch (err) {
+
+    console.log(err);
+
+    alert("Gagal hapus user");
+
+  }
+};
+
+
+
+
+const deleteUser = async (id) => {
+
+  const confirmDelete =
+    window.confirm(
+      "Yakin hapus user?"
+    );
+
+  if (!confirmDelete) return;
+
+  try {
+
+    await axios.delete(
+      `http://localhost:3000/api/v1/users/${id}`,
+      {
+        headers: {
+          Authorization:
+            `Bearer ${token}`,
+        },
+      }
+    );
+
+    alert("User deleted");
+
+    fetchUsers();
+
+  } catch (err) {
+
+    console.log(err);
+
+    alert("Gagal hapus user");
+
+  }
+};
+
+
+
+
+
+
+  // =====================
+  // EFFECT
+  // =====================
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  // =====================
+  // RENDER
+  // =====================
+  return (
+    <div style={{ padding: "20px" }}>
+
+      <h1>Dashboard</h1>
+
+      <button
+        onClick={openModal}
+        style={{
+          marginBottom: "20px",
+        }}
+      >
+        + Add User
+      </button>
+
+      {loading && <p>Loading...</p>}
+
+      <div>
+
+        {users.map((user) => (
+
+          <div
+            key={user.id}
+            style={{
+              border: "1px solid #ccc",
+              padding: "10px",
+              marginBottom: "10px",
+            }}
+          >
+
+            <b>{user.name}</b>
+            <br />
+
+            {user.email}
+
+            <br /><br />
+
+            <button
+              onClick={() =>
+                openEditModal(user)
+              }
+            >
+              Edit
+            </button>
+
+          </div>
+
+        ))}
+
+      </div>
+
+      {/* MODAL */}
+      {isModalOpen && (
+
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background:
+              "rgba(0,0,0,0.5)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+
+          <div
+            style={{
+              background: "white",
+              padding: "20px",
+              width: "300px",
+            }}
+          >
+
+            <h3>
+              {editingUser
+                ? "Edit User"
+                : "Add User"}
+            </h3>
+
+            <form
+              onSubmit={handleSubmit}
+            >
+
+              <input
+                type="text"
+                placeholder="Name"
+                value={formData.name}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    name: e.target.value,
+                  })
+                }
+              />
+
+              <br /><br />
+
+              <input
+                type="email"
+                placeholder="Email"
+                value={formData.email}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    email: e.target.value,
+                  })
+                }
+              />
+
+              <br /><br />
+
+              {!editingUser && (
+
+                <input
+                  type="password"
+                  placeholder="Password"
+                  value={formData.password}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      password:
+                        e.target.value,
+                    })
+                  }
+                />
+
+              )}
+
+              <br /><br />
+
+              <button type="submit">
+                Save
+              </button>
+
+              <button
+                type="button"
+                onClick={closeModal}
+                style={{
+                  marginLeft: "10px",
+                }}
+              >
+                Cancel
+              </button>
+
+            </form>
+
+          </div>
+
+        </div>
+
+      )}
+
+    </div>
+  );
+}

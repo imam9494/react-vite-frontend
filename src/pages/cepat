@@ -1,0 +1,27 @@
+🔥 Cara cepat cari di file kamu
+
+Di terminal:
+
+nl -ba DashboardNew.jsx | sed -n '1,200p'
+
+atau cari langsung:
+
+grep -n "isModalOpen" DashboardNew.jsx
+
+
+psql --version
+sudo find /etc/postgresql -name pg_hba.conf
+grep -n "return (" ~/frontend/src/pages/DashboardNew.jsx
+grep -n "<div\|</div>" ~/frontend/src/pages/DashboardNew.jsx
+
+
+
+idebar + Navbar
+✅ StatsCards
+✅ UserForm
+✅ SearchBar
+✅ UserTable
+✅ Pagination
+✅ Edit Modal
+✅ Export Excel
+
