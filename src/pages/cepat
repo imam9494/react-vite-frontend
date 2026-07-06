@@ -13,7 +13,11 @@ psql --version
 sudo find /etc/postgresql -name pg_hba.conf
 grep -n "return (" ~/frontend/src/pages/DashboardNew.jsx
 grep -n "<div\|</div>" ~/frontend/src/pages/DashboardNew.jsx
-
+cd ~/backend
+git status
+git add .
+git commit -m "Fix backend startup and restore server configuration"
+git push
 
 
 idebar + Navbar
