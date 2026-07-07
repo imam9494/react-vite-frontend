@@ -4,7 +4,7 @@
 
 ## Dashboard
 
-![Dashboard](screenshots/dashboard.png)
+![Dashboard](screenshots/Dashboard.png)
 
 # React + Vite
 
