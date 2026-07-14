@@ -1,112 +1,89 @@
 export default function UserTable({
-  currentUsers,
-  indexOfFirst,
-  handleEdit,
-  handleDelete,
+  users,
   sortField,
   sortOrder,
   setSortField,
   setSortOrder,
-  isAdmin,
+  onEdit,
+  onDelete,
 }) {
+  const handleSort = (field) => {
+    if (sortField === field) {
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+    } else {
+      setSortField(field);
+      setSortOrder("asc");
+    }
+  };
+
   return (
-    <table className="table table-bordered table-success table-hover text-center">
+    <table className="table table-bordered table-hover table-striped text-center">
       <thead className="table-dark">
         <tr>
           <th>No</th>
 
           <th
             style={{ cursor: "pointer" }}
-            onClick={() => {
-              setSortField("name");
-              setSortOrder(
-                sortField === "name" && sortOrder === "asc"
-                  ? "desc"
-                  : "asc"
-              );
-            }}
+            onClick={() => handleSort("name")}
           >
-            Name {sortField === "name" && (sortOrder === "asc" ? "▲" : "▼")}
+            Name{" "}
+            {sortField === "name" &&
+              (sortOrder === "asc" ? "▲" : "▼")}
           </th>
 
           <th
             style={{ cursor: "pointer" }}
-            onClick={() => {
-              setSortField("email");
-              setSortOrder(
-                sortField === "email" && sortOrder === "asc"
-                  ? "desc"
-                  : "asc"
-              );
-            }}
+            onClick={() => handleSort("email")}
           >
-            Email {sortField === "email" && (sortOrder === "asc" ? "▲" : "▼")}
+            Email{" "}
+            {sortField === "email" &&
+              (sortOrder === "asc" ? "▲" : "▼")}
           </th>
 
           <th
             style={{ cursor: "pointer" }}
-            onClick={() => {
-              setSortField("role");
-              setSortOrder(
-                sortField === "role" && sortOrder === "asc"
-                  ? "desc"
-                  : "asc"
-              );
-            }}
+            onClick={() => handleSort("role")}
           >
-            Role {sortField === "role" && (sortOrder === "asc" ? "▲" : "▼")}
+            Role{" "}
+            {sortField === "role" &&
+              (sortOrder === "asc" ? "▲" : "▼")}
           </th>
 
-          <th>Aksi</th>
+          <th width="170">Aksi</th>
         </tr>
       </thead>
 
       <tbody>
-        {currentUsers.map((u, i) => (
-          <tr key={u.id}>
-            <td>{indexOfFirst + i + 1}</td>
-            <td>{u.name}</td>
-            <td>{u.email}</td>
-
-            <td>
-              {u.role === "admin" && (
-                <span className="badge bg-danger">Admin</span>
-              )}
-
-              {u.role === "staff" && (
-                <span className="badge bg-warning text-dark">
-                  Staff
-                </span>
-              )}
-
-              {u.role === "user" && (
-                <span className="badge bg-success">
-                  User
-                </span>
-              )}
-            </td>
-
-            <td>
-              {isAdmin && (
-                <>
-                  <button
-                    className="btn btn-warning btn-sm me-2"
-                    onClick={() => handleEdit(u)}
-                  >
-                    Edit
-                  </button>
-
-                  <button
-                    className="btn btn-danger btn-sm"
-                    onClick={() => handleDelete(u.id)}
-                  >
-                    Delete
-                  </button>
-                </>
-              )}
-            </td>
+        {users.length === 0 ? (
+          <tr>
+            <td colSpan="5">Tidak ada data</td>
           </tr>
-        ))}
+        ) : (
+          users.map((user, index) => (
+            <tr key={user.id}>
+              <td>{index + 1}</td>
+              <td>{user.name}</td>
+              <td>{user.email}</td>
+              <td>{user.role}</td>
+
+              <td>
+                <button
+                  className="btn btn-warning btn-sm me-2"
+                  onClick={() => onEdit(user)}
+                >
+                  Edit
+                </button>
+
+                <button
+                  className="btn btn-danger btn-sm"
+                  onClick={() => onDelete(user.id)}
+                >
+                  Hapus
+                </button>
+              </td>
+            </tr>
+          ))
+        )}
       </tbody>
     </table>
   );

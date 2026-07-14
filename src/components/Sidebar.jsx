@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
+export default function Sidebar({ collapsed }) 
 
-export default function Sidebar({
-  collapsed,
-  setCollapsed,
-}) {
+
+ {
   return (
+    
     <div
       style={{
         width: collapsed ? "70px" : "250px",
@@ -12,14 +12,12 @@ export default function Sidebar({
         background: "#212529",
         color: "white",
         padding: "15px",
+        transition: "width 0.3s ease",
+        overflow: "hidden",
+        flexShrink: 0,
       }}
     >
-      <button
-        className="btn btn-light mb-3"
-        onClick={() => setCollapsed(!collapsed)}
-      >
-        ☰
-      </button>
+      
 
       {!collapsed && (
         <>

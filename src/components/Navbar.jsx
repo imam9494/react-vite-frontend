@@ -1,4 +1,4 @@
-export default function Navbar() {
+export default function Navbar({ toggleSidebar }) {
 
   const user = JSON.parse(localStorage.getItem("user"));
 
@@ -14,6 +14,9 @@ export default function Navbar() {
       className="navbar navbar-expand-lg bg-white shadow-sm px-4"
       style={{ height: "65px" }}
     >
+
+
+      
       <span className="navbar-brand fw-bold">
         User Management System
       </span>

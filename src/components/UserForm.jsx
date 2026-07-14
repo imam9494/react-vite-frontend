@@ -1,6 +1,6 @@
 export default function UserForm({
   newUser,
-  setNewUser,
+  handleInputChange,
   handleCreate,
   errorMessage,
 }) {
@@ -8,44 +8,40 @@ export default function UserForm({
     <div className="card mb-4 shadow">
       <div className="card-body">
 
+        
         <input
           type="text"
+          name="name"
           placeholder="Name"
           value={newUser.name}
-          onChange={(e) =>
-            setNewUser({ ...newUser, name: e.target.value })
-          }
+          onChange={handleInputChange}
         />
 
         <input
           type="email"
+          name="email"
           placeholder="Email"
           value={newUser.email}
-          onChange={(e) =>
-            setNewUser({ ...newUser, email: e.target.value })
-          }
+          onChange={handleInputChange}
         />
 
         <input
           type="password"
+          name="password"
           placeholder="Password"
           value={newUser.password}
-          onChange={(e) =>
-            setNewUser({ ...newUser, password: e.target.value })
-          }
+          onChange={handleInputChange}
         />
 
         <select
+          name="role"
           value={newUser.role}
-          onChange={(e) =>
-            setNewUser({ ...newUser, role: e.target.value })
-          }
+          onChange={handleInputChange}
         >
           <option value="user">User</option>
           <option value="admin">Admin</option>
           <option value="staff">Staff</option>
         </select>
-
         {errorMessage && (
           <div className="alert alert-danger mt-2">
             {errorMessage}

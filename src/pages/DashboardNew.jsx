@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Sidebar from "../components/Sidebar";
 export default function DashboardNew() {
-  const navigate = useNavigate();
+ 
 
 
   
@@ -14,13 +14,13 @@ export default function DashboardNew() {
 
 
   const [currentPage, setCurrentPage] = useState(1);
-  const usersPerPage = 10;
+   const usersPerPage = 10;
 
 
 
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [editErrorMessage, setEditErrorMessage] = useState("");
+  
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
   const [editErrorMessage, setEditErrorMessage] = useState("");
@@ -33,8 +33,9 @@ export default function DashboardNew() {
 
 
   const currentUser = JSON.parse(
-    localStorage.getItem("user")
-  );
+   localStorage.getItem("user") || "{}"
+   );
+  
 
   const fetchUsers = async () => {
     setLoading(true);
