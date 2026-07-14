@@ -24,7 +24,8 @@ export default function DashboardFinal() {
     const [search, setSearch] = useState("");
     const [sortField, setSortField] = useState("id");
     const [sortOrder, setSortOrder] = useState("asc");
-
+    const [currentPage, setCurrentPage] = useState(1);
+    const usersPerPage = 10;
     const [newUser, setNewUser] = useState({
         name: "",
         email: "",
@@ -184,7 +185,17 @@ export default function DashboardFinal() {
         return 0;
     });
 
+    const indexOfLastUser = currentPage * usersPerPage;
+    const indexOfFirstUser = indexOfLastUser - usersPerPage;
 
+    const currentUsers = sortedUsers.slice(
+        indexOfFirstUser,
+        indexOfLastUser
+    );
+
+    const totalPages = Math.ceil(
+        sortedUsers.length / usersPerPage
+    );
    
 
     
@@ -239,7 +250,10 @@ export default function DashboardFinal() {
                                 style={{ width: "300px" }}
                                 placeholder="Search user..."
                                 value={search}
-                                onChange={(e) => setSearch(e.target.value)}
+                                onChange={(e) => {
+                                    setSearch(e.target.value);
+                                    setCurrentPage(1);
+                                }}
                             />
                             <ExportButton
                                 handleExportExcel={handleExportExcel}
@@ -250,7 +264,7 @@ export default function DashboardFinal() {
 
                         </div>
                     </div>
-
+                
                     <div className="my-4">
                         <UserForm
                             newUser={newUser}
@@ -259,8 +273,9 @@ export default function DashboardFinal() {
                         />
                     </div>
                     <UserTable
-                        
-                        users={sortedUsers}
+                        users={currentUsers}
+                        currentPage={currentPage}
+                        usersPerPage={usersPerPage}
                         sortField={sortField}
                         sortOrder={sortOrder}
                         setSortField={setSortField}
@@ -268,7 +283,33 @@ export default function DashboardFinal() {
                         onEdit={handleEdit}
                         onDelete={handleDelete}
                     />
-                   
+
+                    <div className="d-flex justify-content-between align-items-center mt-3">
+
+                        <button
+                            className="btn btn-outline-primary"
+                            disabled={currentPage === 1}
+                            onClick={() => setCurrentPage(currentPage - 1)}
+                        >
+                            ← Previous
+                        </button>
+
+                        <span>
+                            Halaman {currentPage} dari {totalPages}
+                        </span>
+
+                        <button
+                            className="btn btn-outline-primary"
+                            disabled={currentPage === totalPages}
+                            onClick={() => setCurrentPage(currentPage + 1)}
+                        >
+                            Next →
+                        </button>
+
+                    </div>
+
+
+
                 </div>
             </div>
             {isModalOpen && editingUser && (

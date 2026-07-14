@@ -1,5 +1,7 @@
 export default function UserTable({
   users,
+  currentPage,
+  usersPerPage,
   sortField,
   sortOrder,
   setSortField,
@@ -61,7 +63,7 @@ export default function UserTable({
         ) : (
           users.map((user, index) => (
             <tr key={user.id}>
-              <td>{index + 1}</td>
+              <td>{(currentPage - 1) * usersPerPage + index + 1}</td>
               <td>{user.name}</td>
               <td>{user.email}</td>
               <td>{user.role}</td>

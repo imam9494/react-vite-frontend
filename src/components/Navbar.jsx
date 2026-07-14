@@ -1,5 +1,4 @@
 export default function Navbar({ toggleSidebar }) {
-
   const user = JSON.parse(localStorage.getItem("user"));
 
   function handleLogout() {
@@ -8,38 +7,33 @@ export default function Navbar({ toggleSidebar }) {
     window.location.href = "/";
   }
 
-
   return (
     <nav
       className="navbar navbar-expand-lg bg-white shadow-sm px-4"
       style={{ height: "65px" }}
     >
+      <button
+        className="btn btn-outline-dark me-3"
+        onClick={toggleSidebar}
+      >
+        ☰
+      </button>
 
-
-      
       <span className="navbar-brand fw-bold">
         User Management System
       </span>
 
-      <div className="ms-auto">
+      <div className="ms-auto d-flex align-items-center gap-2">
+        <span className="fw-semibold">
+          Login sebagai: <b>{user?.name}</b> ({user?.role})
+        </span>
 
-
-<div className="ms-auto d-flex align-items-center gap-2">
-
-  <span className="fw-semibold">
-    Login sebagai: <b>{user?.name}</b> ({user?.role})
-
-
-  </span>
-
-  <button
-    className="btn btn-danger"
-    onClick={handleLogout}
-  >
-    Logout
-  </button>
-
-</div>
+        <button
+          className="btn btn-danger"
+          onClick={handleLogout}
+        >
+          Logout
+        </button>
       </div>
     </nav>
   );
