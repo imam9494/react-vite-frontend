@@ -5,52 +5,89 @@ export default function UserForm({
   errorMessage,
 }) {
   return (
-    <div className="card mb-4 shadow">
+    <div className="card border-0 shadow">
       <div className="card-body">
 
-        
-        <input
-          type="text"
-          name="name"
-          placeholder="Name"
-          value={newUser.name}
-          onChange={handleInputChange}
-        />
+        <div className="row g-3">
 
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={newUser.email}
-          onChange={handleInputChange}
-        />
+          <div className="col-md-6">
+            <label className="form-label fw-semibold">
+              👤 Nama
+            </label>
 
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={newUser.password}
-          onChange={handleInputChange}
-        />
+            <input
+              type="text"
+              className="form-control"
+              name="name"
+              placeholder="Masukkan nama"
+              value={newUser.name}
+              onChange={handleInputChange}
+            />
+          </div>
 
-        <select
-          name="role"
-          value={newUser.role}
-          onChange={handleInputChange}
-        >
-          <option value="user">User</option>
-          <option value="admin">Admin</option>
-          <option value="staff">Staff</option>
-        </select>
+          <div className="col-md-6">
+            <label className="form-label fw-semibold">
+              ✉ Email
+            </label>
+
+            <input
+              type="email"
+              className="form-control"
+              name="email"
+              placeholder="Masukkan email"
+              value={newUser.email}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div className="col-md-6">
+            <label className="form-label fw-semibold">
+              🔒 Password
+            </label>
+
+            <input
+              type="password"
+              className="form-control"
+              name="password"
+              placeholder="Masukkan password"
+              value={newUser.password}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div className="col-md-6">
+            <label className="form-label fw-semibold">
+              🛡 Role
+            </label>
+
+            <select
+              className="form-select"
+              name="role"
+              value={newUser.role}
+              onChange={handleInputChange}
+            >
+              <option value="user">User</option>
+              <option value="admin">Admin</option>
+              <option value="staff">Staff</option>
+            </select>
+          </div>
+
+        </div>
+
         {errorMessage && (
-          <div className="alert alert-danger mt-2">
+          <div className="alert alert-danger mt-3">
             {errorMessage}
           </div>
         )}
 
-        <button onClick={handleCreate}>
-          Add User
-        </button>
+        <div className="mt-4 text-end">
+          <button
+            className="btn btn-primary px-4"
+            onClick={handleCreate}
+          >
+            ➕ Tambah User
+          </button>
+        </div>
 
       </div>
     </div>

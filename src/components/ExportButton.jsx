@@ -1,12 +1,12 @@
 export default function ExportButton({
-  handleExportExcel,
+    handleExportExcel,
 }) {
-  return (
-    <button
-      className="btn btn-success"
-      onClick={handleExportExcel}
-    >
-      📊 Export Excel
-    </button>
-  );
+    return (
+        <button
+            className="btn btn-success shadow px-4"
+            onClick={handleExportExcel}
+        >
+            📊 Export Excel
+        </button>
+    );
 }
