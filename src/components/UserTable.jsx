@@ -1,4 +1,8 @@
 export default function UserTable({
+  
+  
+  
+  
   users,
   currentPage,
   usersPerPage,
@@ -9,6 +13,10 @@ export default function UserTable({
   onEdit,
   onDelete,
 }) {
+
+
+
+ 
   const handleSort = (field) => {
     if (sortField === field) {
       setSortOrder(sortOrder === "asc" ? "desc" : "asc");
@@ -21,24 +29,52 @@ export default function UserTable({
   const roleBadge = (role) => {
     switch (role) {
       case "admin":
-        return <span className="badge bg-danger">Admin</span>;
+        return (
+          <span className="badge bg-danger px-3 py-2">
+            👑 Admin
+          </span>
+        );
+
       case "staff":
-        return <span className="badge bg-warning text-dark">Staff</span>;
+        return (
+          <span className="badge bg-warning text-dark px-3 py-2">
+            👨‍💼 Staff
+          </span>
+        );
+
       default:
-        return <span className="badge bg-success">User</span>;
+        return (
+          <span className="badge bg-success px-3 py-2">
+            👤 User
+          </span>
+        );
     }
   };
 
+  console.log("USER TABLE DATA:", users);
+
+  if (!Array.isArray(users)) {
+    return (
+      <div className="alert alert-danger">
+        Data users bukan array
+      </div>
+    );
+  }
+
+
+
+
+
+
+  console.log(users[0]);
+  console.log(typeof users[0]?.role);
+  console.log(users[0]?.role);
+  console.log("===== USER TABLE LOADED =====");
   return (
     <div className="table-responsive">
-      <table className="table table-hover align-middle text-center">
+      <table className="table table-striped table-hover table-bordered align-middle text-center shadow-sm">
 
-        <thead
-          style={{
-            background: "#0d6efd",
-            color: "white",
-          }}
-        >
+        <thead className="table-dark"> 
           <tr>
             <th width="70">No</th>
 
@@ -83,34 +119,31 @@ export default function UserTable({
               <tr key={user.id}>
                 <td>{(currentPage - 1) * usersPerPage + index + 1}</td>
 
-                <td style={{ color: "red", fontWeight: "bold" }}>
-                  {String(user.name)}
+                <td className="fw-semibold">
+                  {user.name}
                 </td>
 
-                <td style={{ color: "blue", fontWeight: "bold" }}>
-                  {String(user.email)}
+                <td className="text-primary">
+                  {user.email}
                 </td>
-
-                <td>
-                  {String(user.role)}
-                </td>
-              
-
+                
                 <td>
                   {roleBadge(user.role)}
                 </td>
 
+               
+
                 <td>
 
                   <button
-                    className="btn btn-warning btn-sm me-2"
+                    className="btn btn-outline-warning btn-sm me-2"
                     onClick={() => onEdit(user)}
                   >
                     ✏ Edit
                   </button>
 
                   <button
-                    className="btn btn-danger btn-sm"
+                    className="btn btn-outline-danger btn-sm"
                     onClick={() => onDelete(user.id)}
                   >
                     🗑 Hapus
