@@ -10,30 +10,64 @@ export default function Navbar({ toggleSidebar }) {
   return (
     <nav
       className="navbar navbar-expand-lg bg-white shadow-sm px-4"
-      style={{ height: "65px" }}
+      style={{
+        height: "70px",
+        borderBottom: "1px solid #e9ecef",
+      }}
     >
+      {/* Toggle Sidebar */}
       <button
-        className="btn btn-outline-dark me-3"
+        className="btn btn-outline-secondary"
         onClick={toggleSidebar}
       >
-        ☰
+        <i className="bi bi-list fs-5"></i>
       </button>
 
-      <span className="navbar-brand fw-bold">
-        User Management System
-      </span>
+      {/* Judul */}
+      <div className="ms-3">
+        <h5 className="mb-0 fw-bold">
+          Dashboard
+        </h5>
 
-      <div className="ms-auto d-flex align-items-center gap-2">
-        <span className="fw-semibold">
-          Login sebagai: <b>{user?.name}</b> ({user?.role})
-        </span>
+        <small className="text-muted">
+          User Management System
+        </small>
+      </div>
+
+      {/* User */}
+      <div className="ms-auto d-flex align-items-center">
+
+        <div className="text-end me-3">
+
+          <div className="fw-semibold">
+            {user?.name}
+          </div>
+
+          <small className="text-muted text-capitalize">
+            {user?.role}
+          </small>
+
+        </div>
+
+        <div
+          className="rounded-circle bg-primary text-white d-flex justify-content-center align-items-center me-3"
+          style={{
+            width: "42px",
+            height: "42px",
+            fontWeight: "bold",
+          }}
+        >
+          {user?.name?.charAt(0).toUpperCase()}
+        </div>
 
         <button
-          className="btn btn-danger"
+          className="btn btn-outline-danger"
           onClick={handleLogout}
         >
+          <i className="bi bi-box-arrow-right me-2"></i>
           Logout
         </button>
+
       </div>
     </nav>
   );

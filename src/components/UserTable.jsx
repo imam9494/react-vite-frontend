@@ -1,8 +1,4 @@
 export default function UserTable({
-  
-  
-  
-  
   users,
   currentPage,
   usersPerPage,
@@ -14,9 +10,6 @@ export default function UserTable({
   onDelete,
 }) {
 
-
-
- 
   const handleSort = (field) => {
     if (sortField === field) {
       setSortOrder(sortOrder === "asc" ? "desc" : "asc");
@@ -61,20 +54,15 @@ export default function UserTable({
     );
   }
 
-
-
-
-
-
-  console.log(users[0]);
-  console.log(typeof users[0]?.role);
-  console.log(users[0]?.role);
-  console.log("===== USER TABLE LOADED =====");
+  
   return (
     <div className="table-responsive">
-      <table className="table table-striped table-hover table-bordered align-middle text-center shadow-sm">
 
-        <thead className="table-dark"> 
+      <table className="table table-striped table-hover table-bordered align-middle text-center shadow-sm mb-0">
+      
+     
+
+        <thead className="table-dark text-center">
           <tr>
             <th width="70">No</th>
 
@@ -82,21 +70,29 @@ export default function UserTable({
               style={{ cursor: "pointer" }}
               onClick={() => handleSort("name")}
             >
-              👤 Nama {sortField === "name" && (sortOrder === "asc" ? "▲" : "▼")}
+              
+              
+              
+              <i className="bi bi-person me-1"></i>
+              Nama
+               {sortField === "name" && (sortOrder === "asc" ? "▲" : "▼")}
             </th>
 
             <th
               style={{ cursor: "pointer" }}
               onClick={() => handleSort("email")}
             >
-              ✉ Email {sortField === "email" && (sortOrder === "asc" ? "▲" : "▼")}
+              <i className="bi bi-envelope me-1"></i>
+              Email
+               {sortField === "email" && (sortOrder === "asc" ? "▲" : "▼")}
             </th>
 
             <th
               style={{ cursor: "pointer" }}
               onClick={() => handleSort("role")}
             >
-              🛡 Role {sortField === "role" && (sortOrder === "asc" ? "▲" : "▼")}
+              <i className="bi bi-shield-lock me-1"></i>
+              Role{sortField === "role" && (sortOrder === "asc" ? "▲" : "▼")}
             </th>
 
             <th width="200">Aksi</th>
@@ -136,17 +132,19 @@ export default function UserTable({
                 <td>
 
                   <button
-                    className="btn btn-outline-warning btn-sm me-2"
+                    className="btn btn-warning btn-sm me-2"
                     onClick={() => onEdit(user)}
                   >
-                    ✏ Edit
+                    <i className="bi bi-pencil-square me-1"></i>
+                    Edit
                   </button>
 
                   <button
-                    className="btn btn-outline-danger btn-sm"
+                    className="btn btn-danger btn-sm"
                     onClick={() => onDelete(user.id)}
                   >
-                    🗑 Hapus
+                    <i className="bi bi-trash me-1"></i>
+                    Hapus
                   </button>
 
                 </td>

@@ -4,61 +4,78 @@ export default function StatsCards({
   userCount,
   staffCount,
 }) {
+  const cards = [
+    {
+      title: "Total User",
+      value: users.length,
+      color: "primary",
+      icon: "bi-people-fill",
+    },
+    {
+      title: "Admin",
+      value: adminCount,
+      color: "danger",
+      icon: "bi-shield-lock-fill",
+    },
+    {
+      title: "User",
+      value: userCount,
+      color: "success",
+      icon: "bi-person-fill",
+    },
+    {
+      title: "Staff",
+      value: staffCount,
+      color: "warning",
+      text: "dark",
+      icon: "bi-person-workspace",
+    },
+  ];
+
   return (
     <div className="row g-4 mb-4">
-
-      <div className="col-12 col-sm-6 col-lg-3">
+      {cards.map((card) => (
         <div
-          className="card bg-primary text-white shadow border-0"
-          style={{ borderRadius: "15px" }}
+          key={card.title}
+          className="col-12 col-sm-6 col-xl-3"
         >
-          <div className="card-body text-center">
-            <h1>👥</h1>
-            <h5>Total User</h5>
-            <h2 className="fw-bold">{users.length}</h2>
+          <div
+            className={`card bg-${card.color} ${
+              card.text === "dark" ? "text-dark" : "text-white"
+            } border-0 shadow h-100 dashboard-card`}
+            style={{
+              borderRadius: "18px",
+            }}
+          >
+            <div className="card-body d-flex align-items-center justify-content-between p-4">
+
+              <div>
+                <div
+                  className="fw-semibold"
+                  style={{ opacity: 0.9 }}
+                >
+                  {card.title}
+                </div>
+
+                <h2 className="fw-bold mt-2 mb-0">
+                  {card.value}
+                </h2>
+              </div>
+
+              <i
+                className={`bi ${card.icon}`}
+                style={{
+                  fontSize: "3rem",
+                  opacity: 0.25,
+                  transition: "0.25s",  
+               }}
+              ></i>
+
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="col-12 col-sm-6 col-lg-3">
-        <div
-          className="card bg-danger text-white shadow border-0"
-          style={{ borderRadius: "15px" }}
-        >
-          <div className="card-body text-center">
-            <h1>👑</h1>
-            <h5>Admin</h5>
-            <h2 className="fw-bold">{adminCount}</h2>
-          </div>
-        </div>
-      </div>
-
-      <div className="col-12 col-sm-6 col-lg-3">
-        <div
-          className="card bg-success text-white shadow border-0"
-          style={{ borderRadius: "15px" }}
-        >
-          <div className="card-body text-center">
-            <h1>👤</h1>
-            <h5>User</h5>
-            <h2 className="fw-bold">{userCount}</h2>
-          </div>
-        </div>
-      </div>
-
-      <div className="col-12 col-sm-6 col-lg-3">
-        <div
-          className="card bg-warning text-dark shadow border-0"
-          style={{ borderRadius: "15px" }}
-        >
-          <div className="card-body text-center">
-            <h1>🛠</h1>
-            <h5>Staff</h5>
-            <h2 className="fw-bold">{staffCount}</h2>
-          </div>
-        </div>
-      </div>
-
+      ))}
     </div>
   );
 }

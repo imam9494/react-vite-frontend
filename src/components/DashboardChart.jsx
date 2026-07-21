@@ -1,20 +1,18 @@
 import {
   Chart as ChartJS,
-  ArcElement,
-  BarElement,
   CategoryScale,
   LinearScale,
+  BarElement,
   Tooltip,
   Legend,
 } from "chart.js";
 
-import { Pie, Bar } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 
 ChartJS.register(
-  ArcElement,
-  BarElement,
   CategoryScale,
   LinearScale,
+  BarElement,
   Tooltip,
   Legend
 );
@@ -24,21 +22,7 @@ export default function DashboardChart({
   userCount,
   staffCount,
 }) {
-  const pieData = {
-    labels: ["Admin", "User", "Staff"],
-    datasets: [
-      {
-        data: [adminCount, userCount, staffCount],
-        backgroundColor: [
-          "#dc3545",
-          "#198754",
-          "#ffc107",
-        ],
-      },
-    ],
-  };
-
-  const barData = {
+  const data = {
     labels: ["Admin", "User", "Staff"],
     datasets: [
       {
@@ -49,39 +33,51 @@ export default function DashboardChart({
           "#198754",
           "#ffc107",
         ],
+        borderRadius: 8,
       },
     ],
   };
+const options = {
+  responsive: true,
+  maintainAspectRatio: false,
+
+  plugins: {
+    legend: {
+      display: false,
+    },
+  },
+
+  scales: {
+    y: {
+      beginAtZero: true,
+      ticks: {
+        stepSize: 5,
+      },
+    },
+  },
+};
 
   return (
-    <div className="row mb-4">
+    <div className="card shadow-sm border-0 rounded-4 mb-4">
 
-      <div className="col-md-6">
-        <div className="card shadow">
-          <div className="card-header fw-bold">
-            User Distribution
-          </div>
-
-          <div className="card-body">
-            <Pie data={pieData} />
-          </div>
-
-        </div>
+      <div className="card-header bg-white border-0 py-3">
+        <h5 className="fw-bold mb-0">
+          📊 Statistik User
+        </h5>
       </div>
 
-      <div className="col-md-6">
-        <div className="card shadow">
-          <div className="card-header fw-bold">
-            User Statistics
-          </div>
-
-          <div className="card-body">
-            <Bar data={barData} />
-          </div>
-
+      <div className="card-body">
+        <div style={{ height: "300px" }}>
+          <Bar
+            data={data}
+            options={options}
+          />
         </div>
       </div>
 
     </div>
   );
 }
+   
+
+  
