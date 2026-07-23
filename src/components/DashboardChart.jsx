@@ -1,83 +1,142 @@
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Tooltip,
-  Legend,
-} from "chart.js";
-
-import { Bar } from "react-chartjs-2";
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Tooltip,
-  Legend
-);
+import Chart from "react-apexcharts";
 
 export default function DashboardChart({
   adminCount,
   userCount,
   staffCount,
+  onRoleClick,
 }) {
-  const data = {
-    labels: ["Admin", "User", "Staff"],
-    datasets: [
-      {
-        label: "Jumlah User",
-        data: [adminCount, userCount, staffCount],
-        backgroundColor: [
-          "#dc3545",
-          "#198754",
-          "#ffc107",
-        ],
+  const total = adminCount + userCount + staffCount;
+
+  const barOptions = {
+    chart: {
+      type: "bar",
+      toolbar: {
+        show: false,
+      },
+      animations: {
+        enabled: true,
+        easing: "easeinout",
+        speed: 800,
+      },
+    },
+
+    plotOptions: {
+      bar: {
         borderRadius: 8,
+        distributed: true,
+        columnWidth: "45%",
       },
+    },
+
+    colors: [
+      "#dc3545",
+      "#198754",
+      "#ffc107",
     ],
-  };
-const options = {
-  responsive: true,
-  maintainAspectRatio: false,
 
-  plugins: {
-    legend: {
-      display: false,
+    dataLabels: {
+      enabled: true,
     },
-  },
 
-  scales: {
-    y: {
-      beginAtZero: true,
-      ticks: {
-        stepSize: 5,
+    xaxis: {
+      categories: ["Admin", "User", "Staff"],
+    },
+
+    legend: {
+      show: false,
+    },
+
+    grid: {
+      borderColor: "#e9ecef",
+    },
+  };
+  const donutOptions = {
+    chart: {
+      type: "donut",
+      events: {
+        dataPointSelection(event, chartContext, config) {
+          console.log("Klik donut:", config.dataPointIndex);
+
+          const roles = ["admin", "user", "staff"];
+          onRoleClick?.(roles[config.dataPointIndex]);
+        },
       },
     },
-  },
-};
+
+    labels: ["Admin", "User", "Staff"],
+
+    legend: {
+      show: true,
+      position: "bottom",
+      fontSize: "14px",
+      fontWeight: "600",
+    },
+  };
+
+  console.log(donutOptions);
 
   return (
-    <div className="card shadow-sm border-0 rounded-4 mb-4">
+    <div className="row g-4 mb-4">
 
-      <div className="card-header bg-white border-0 py-3">
-        <h5 className="fw-bold mb-0">
-          📊 Statistik User
-        </h5>
+      <div className="col-lg-8">
+        <div className="card border-0 shadow rounded-4 h-100">
+
+          <div className="card-header bg-white">
+            <h5 className="fw-bold mb-0">
+              📊 Statistik User
+            </h5>
+          </div>
+
+          <div className="card-body">
+            <Chart
+              options={barOptions}
+              series={[
+                {
+                  name: "Jumlah User",
+                  data: [
+                    adminCount,
+                    userCount,
+                    staffCount,
+                  ],
+                },
+              ]}
+              type="bar"
+              height={320}
+            />
+          </div>
+
+        </div>
       </div>
 
-      <div className="card-body">
-        <div style={{ height: "300px" }}>
-          <Bar
-            data={data}
-            options={options}
-          />
+      <div className="col-lg-4">
+        <div className="card border-0 shadow rounded-4 h-100">
+
+          <div className="card-header bg-white">
+            <h5 className="fw-bold mb-0">
+              🥧 Persentase User
+            </h5>
+          </div>
+
+          <div
+            className="card-body d-flex justify-content-center align-items-center"
+          >
+            <Chart
+              options={donutOptions}
+              series={[
+                adminCount,
+                userCount,
+                staffCount,
+              ]}
+              type="donut"
+              width="100%"
+              height={300}
+            />
+          </div>
+
         </div>
       </div>
 
     </div>
   );
 }
-   
-
-  

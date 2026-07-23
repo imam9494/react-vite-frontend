@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import DashboardChart from "../components/DashboardChart";
 import api from "../services/api";
 import { toast } from "react-toastify";
@@ -15,14 +15,15 @@ import { saveAs } from "file-saver";
 
 export default function DashboardFinal() {
     const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-
+    const dataUserRef = useRef(null);
     const toggleSidebar = () => {
         setSidebarCollapsed(!sidebarCollapsed);
     };
-
+    
     const [loading, setLoading] = useState(false);
     const [users, setUsers] = useState([]);
     const [search, setSearch] = useState("");
+    const [roleFilter, setRoleFilter] = useState("");
     const [sortField, setSortField] = useState("id");
     const [sortOrder, setSortOrder] = useState("asc");
     const [currentPage, setCurrentPage] = useState(1);
@@ -123,7 +124,7 @@ export default function DashboardFinal() {
     
 
     useEffect(() => {
-        fetchUsers();
+       fetchUsers();
     }, []);
 
     const handleInputChange = (e) => {
@@ -212,15 +213,22 @@ export default function DashboardFinal() {
         );
     };
 
+    
     const filteredUsers = users.filter((user) => {
         const keyword = search.toLowerCase();
 
-        return (
+        const matchSearch =
             user.name?.toLowerCase().includes(keyword) ||
             user.email?.toLowerCase().includes(keyword) ||
-            user.role?.toLowerCase().includes(keyword)
-        );
+            user.role?.toLowerCase().includes(keyword);
+
+        const matchRole =
+            roleFilter === "" || user.role === roleFilter;
+
+        return matchSearch && matchRole;
     });
+
+        
 
 
 
@@ -268,6 +276,7 @@ export default function DashboardFinal() {
             <Sidebar
                 collapsed={sidebarCollapsed}
                 setCollapsed={setSidebarCollapsed}
+                dataUserRef={dataUserRef}
             />
 
             <div
@@ -330,7 +339,7 @@ export default function DashboardFinal() {
                         </div>
                     </div>
                    
-                    <div className="card border-0 shadow-sm mb-4">
+                    <div className="card border-0 shadow rounded-4 mb-4">
                         <div className="card-header bg-primary text-white">
                             <h5 className="mb-0">
                            <i className="bi bi-person-plus-fill me-2"></i>
@@ -346,7 +355,7 @@ export default function DashboardFinal() {
                             />
                         </div>
                     </div>
-
+                    <div style={{ border: "3px solid red" }}> </div>
 <StatsCards
     users={users}
     adminCount={users.filter(u => u.role === "admin").length}
@@ -354,21 +363,47 @@ export default function DashboardFinal() {
     staffCount={users.filter(u => u.role === "staff").length}
 />
 
-                    
                     <DashboardChart
                         adminCount={users.filter(u => u.role === "admin").length}
                         userCount={users.filter(u => u.role === "user").length}
                         staffCount={users.filter(u => u.role === "staff").length}
-                    />
-                   <div className="card shadow-sm border-0 rounded-4">
-  <div className="card-header bg-white">
+                        onRoleClick={setRoleFilter}
+                    />             
+                    
+
+
+                    <div
+                        ref={dataUserRef}
+                        id="data-user"
+                        className="card shadow-sm border-0 rounded-4"
+                    >
+                        <div className="card border-0 shadow rounded-4 mb-4">
     <h5 className="mb-0 fw-bold">
       Data User
     </h5>
   </div>
 
   <div className="card-body p-0">
-    
+                            {roleFilter && (
+                                <div className="d-flex justify-content-between align-items-center px-3 pt-3">
+
+                                    <div className="alert alert-info py-2 px-3 mb-0">
+                                        Menampilkan role :
+                                        <strong className="ms-2 text-uppercase">
+                                            {roleFilter}
+                                        </strong>
+                                    </div>
+
+                                    <button
+                                        className="btn btn-outline-secondary btn-sm"
+                                        onClick={() => setRoleFilter("")}
+                                    >
+                                        <i className="bi bi-arrow-clockwise me-2"></i>
+                                        Reset Filter
+                                    </button>
+
+                                </div>
+                            )}
 
         <UserTable
             users={currentUsers}

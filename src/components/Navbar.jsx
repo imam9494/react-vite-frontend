@@ -9,7 +9,7 @@ export default function Navbar({ toggleSidebar }) {
 
   return (
     <nav
-      className="navbar navbar-expand-lg bg-white shadow-sm px-4"
+      className="navbar navbar-expand-lg bg-white shadow-sm px-4 sticky-top"
       style={{
         height: "70px",
         borderBottom: "1px solid #e9ecef",
